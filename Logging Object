@@ -1,0 +1,70 @@
+Type
+   TLogFormat=(lfDateOnly, lfTimeOnly, lfDateTime);
+   LogClass=Class
+      LogFile:Text;
+      LogFormat:TLogFormat;
+      LogName:String[80];
+      LogStyle:Byte;
+      LogNode:Word;
+      Init:Procedure of Object;
+      Write:Private Procedure(Entry:String) of Object;
+      BlankLine:Private Procedure of Object;
+   End;
+
+Var
+   LogEntry:LogClass;
+
+Procedure LogClass.Free;
+Begin
+   CloseText(LogFile);
+End;
+
+Procedure LogClass.Init(FullLogName:String;Format:TLogFormat);
+Var
+   TmpPath:String;
+   Tmp:Longint;
+
+Begin
+   TmpPath:=GetCurrentPath;
+   With Self do begin
+      LogFormat:=Format;
+      LogName:=FullLogName;
+      Tmp:=Pos('%N',Uppercase(LogName));
+      If Tmp>0 Then begin
+         If LogNode=0 then LogNode:=1;
+         LogName:=Copy(LogName,1,Tmp-1)+IntToStr(LogNode)+Copy(LogName,Tmp+2,255);
+      End;
+      Tmp:=Pos('%H',Uppercase(LogName));
+      If Tmp>0 Then begin
+         If LogNode=0 then LogNode:=1;
+         LogName:=Copy(LogName,1,Tmp-1)+IntToHex(LogNode,5)+Copy(LogName,Tmp+2,255);
+      End;
+      TMethod(@BlankLine):=[@LogClass.BlankLine, @Self];
+      TMethod(@Write)    :=[@LogClass.Write,     @Self];
+      TMethod(@Free)     :=[@LogClass.Free,      @Self];
+   End;
+   AssignText(LogFile,LogName);
+   If FileExists(LogName) Then Append(LogFile)
+   else Rewrite(LogFile);
+End;
+
+Procedure LogClass.Write(Entry:String);
+Var
+   LogStr:String;
+   StrCnt:Word;
+   NW:Longint;
+
+Begin
+   Case LogFormat of
+      lfDateOnly:LogStr:=FormatDatetime('dd-mmm hh:nn:ss ',Now);
+      lfTimeOnly:LogStr:=FormatDatetime('hh:nn:ss ',Now);
+      lfDateTime:LogStr:=FormatDatetime('dd-mmm-yyyy hh:nn ',Now);
+   End;
+   If Entry<>'' then WritelnText(LogFile,LogStr+Entry)
+   Else WritelnText(LogFile,'');
+End;
+
+Procedure LogClass.BlankLine;
+Begin
+   Self.Write('');
+End;
