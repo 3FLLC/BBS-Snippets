@@ -1,0 +1,77 @@
+VIVID###.SYS (###=Nodes 1 to 255)
+Line1: UserID Number (Int32)
+Line2: User Handle (String)
+Line3: User Location (String)
+Line4: *
+Line5: Time Left (Int32)
+Line6: User Security Level (Int32)
+Line7: *
+Line8: *
+Line9: Comport # (Int32)
+Line10: Baudrate (Int32)
+Line11: Locked Baud (Int32)
+Line12: User Phone Number (String)
+Line13: User DOB (String)
+
+DORINFO#.DEF (#=1 to 9) (some user DORINFO1.DEF no matter what node!)
+Line1: *
+Line2: *
+Line3: *
+Line4: Comport # (Int32)
+Line5: Baudrate (Int32)
+Line6: *
+Line7: User Handle or First Name (String)
+Line8: If Length>0 then Last Name (String)
+Line9: User Location (String)
+Line10: *
+Line11: User Secrity Level (Int32)
+Line12: Time Left (Int32)
+
+DOOR.SYS
+Line1: Comport # (Int32)
+Line2: Baudrate (Int32)
+Line3: *
+Line4: Node (Int32)
+Line5: Locked Baud (Int32)
+Line6: *
+Line7: *
+Line8: *
+Line9: *
+Line10: User Handle (String)
+Line11: User Location (String)
+Line12: User Phone (String)
+Line13: *
+Line14: *
+Line15: User Security Level (Int32)
+Line16: *
+Line17: *
+Line18: *
+Line19: Time Left (Int32)
+Line20: *
+Line21: *
+Line22: *
+Line23: *
+Line24: *
+Line25: *
+Line26: UserID Number (Int32)
+Line27: *
+Line28: *
+Line29: *
+Line30: *
+Line31: *
+Line32: User DOB (String)
+
+DOOR32.SYS
+Line1: ComType [0-Local,1-Serial,2-Telnet] (Int32)
+Line2: Comport # (Int32)
+Line3: Baudrate (Int32)
+Line4: BBS ID (?)
+Line5: UserID Number (Int32)
+Line5: User Real Name (String)
+Line6: User Handle (String)
+Line7: User Security Level (Int32)
+Line8: Time Left (Int32)
+Line9: Terminal Type [ANSI, RIP, NOANSI] (String)
+Line10: *
+
+* Sources of Information: DOSDOOR, XDOOR, 
